@@ -1,6 +1,6 @@
-# regl starter
+# Image collision tests
 
-regl starter repo. regl for webgl and gulp for dev/building. glhf
+Simple test to try to process pixel data for a given image using shaders instead of javascript. The goal is to build a pixel map for use in collision detection.
 
 ## Usage
 

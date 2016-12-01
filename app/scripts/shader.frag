@@ -1,7 +1,5 @@
 precision mediump float;
 
-uniform float time;
-uniform vec2 u_resolution;
 uniform sampler2D texture;
 varying vec2 vTextureCoord;
 

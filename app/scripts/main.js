@@ -9,9 +9,7 @@ let width = document.documentElement.clientWidth,
     mouseY = 0.0,
     isMouseDown = false,
     progressBar,
-    textureRatio = null,
-    fbo = null,
-    isMobile = ('ontouchstart' in window);
+    fbo = null
 
 
 // loader's self-calling. it calls itself.
@@ -19,8 +17,6 @@ var loader = new Loader({
   complete: ({tree}) => {
     document.getElementById('load_progress').classList.add('done');
     document.querySelector('section').style.opacity = 1;
-
-    textureRatio = tree.width / tree.height;
 
     canvas.width = tree.width;
     canvas.height = tree.height;
@@ -54,13 +50,8 @@ var loader = new Loader({
         ]
       },
 
-      uniforms: {
-        texture: regl.prop('texture'),
-        time: regl.context('time'),
-        u_resolution: [tree.width, tree.height]
-      }
+      uniforms: { texture: regl.prop('texture') }
     })
-
 
     var time = new Date().getTime();
 
@@ -72,7 +63,7 @@ var loader = new Loader({
 
     // for (var i = 0, p = pixels.length; i < p; i += 4) {
     //   if (pixels[i] == 255) {
-    //     // console.log(i / 4, i / 4 % tree.width, Math.floor(i / 4 / tree.width));
+    //      console.log(i / 4, i / 4 % tree.width, Math.floor(i / 4 / tree.width));
     //   }
     // }
 

@@ -1,17 +1,16 @@
 import glslify from 'glslify';
 import Loader from './_loader';
 
-let width = document.documentElement.clientWidth,
-    height = document.documentElement.clientHeight,
-    canvas = document.createElement('canvas'),
+    // 3d canvas/context. used for generating pixel map
+let canvas = document.createElement('canvas'),
     gl = canvas.getContext('webgl', { preserveDrawingBuffer: true }),
+
+    // 2d canvas/context. only used to display the texture. also has mouse
+    // events attached to show the collision map in use
     canvas2d = document.createElement('canvas'),
     ctx = canvas2d.getContext('2d'),
-    mouseX = 0.0,
-    mouseY = 0.0,
-    isMouseDown = false,
     progressBar,
-    fbo = null,
+    fbo = null, // framebuffer for the shader to output to
     pixelMap = null;
 
 
@@ -24,11 +23,14 @@ var loader = new Loader({
     canvas.width = canvas2d.width = tree.width;
     canvas.height = canvas2d.height = tree.height;
 
-
     const regl = require('regl')({
       gl: gl,
       extensions: ['OES_texture_float']
     });
+
+    // we could go with a texture size of 1x<total pixels> except it will
+    // probably exceed the maximum allowed texture dimension. so instead we'll
+    // get the square root of the total pixels and set the width/height to that
 
     var textureSize = Math.sqrt(tree.height * tree.width + tree.width);
 
@@ -58,12 +60,14 @@ var loader = new Loader({
     // calculate start time so we can test pixelmap generation times
     var startTime = new Date().getTime();
 
+    // GOGOGOGO
     buildPixelMap({
       texture: regl.texture(tree)
     });
 
     pixelMap = regl.read();
 
+    // print generation time
     console.log('read in ' + (new Date().getTime() - startTime) / 1000 + ' seconds')
 
 
@@ -79,22 +83,8 @@ var loader = new Loader({
       }
     })
 
-    // var imageData = ctx.getImageData(0, 0, canvas2d.width, canvas2d.height);
-    // var data = imageData.data;
-
-    // for (var i = 0, d = data.length; i < d; i++) {
-    //   data[i] = pixelMap[i];
-    // }
-
     ctx.drawImage(tree, 0, 0);
 
-    // ctx.putImageData(imageData, 0, 0);
     document.querySelector('#renderer_container').appendChild(canvas2d);
-
-    // for (var i = 0, p = pixels.length; i < p; i += 4) {
-    //   if (pixels[i] == 255) {
-    //      console.log(i / 4, i / 4 % tree.width, Math.floor(i / 4 / tree.width));
-    //   }
-    // }
   }
 });

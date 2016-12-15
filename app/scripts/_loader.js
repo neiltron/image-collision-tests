@@ -8,9 +8,9 @@ class Loader {
 
     this.completeCb = opts.complete;
     this.manifest = {
-      tree: {
+      cat: {
         type: 'image',
-        src: './images/tree-03.png'
+        src: './images/cat3.png'
       }
     };
 
